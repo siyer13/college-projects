@@ -6,18 +6,12 @@ import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
 import org.junit.Test;
-import org.junit.experimental.categories.Category;
 import org.junit.runner.RunWith;
-import org.mockito.InjectMocks;
-import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
-import org.mockito.Spy;
-import org.springframework.beans.factory.annotation.Autowired;
+import org.mockito.*;
+
 import static org.junit.Assert.*;
 import static org.hamcrest.CoreMatchers.*;
-import static org.mockito.ArgumentMatchers.isNotNull;
 import static org.mockito.Mockito.when;
-
 
 @RunWith(JUnitParamsRunner.class)
 public class StudentServiceTest {
@@ -41,5 +35,20 @@ public class StudentServiceTest {
         student = studentService.registerStudent(firstName,middleName,lastName,college,department,course,courseYear,courseSemester);
         System.out.println(student.getStudentID());
         assertThat(student.getStudentID(),containsString("-"));
+    }
+
+    @Test
+    @Parameters({"046-26-0100"})
+    public void getStudentDetailsByIDTest(String studentId) {
+        when(studentDao.findStudentByID(studentId)).thenReturn(newStudent());
+        student = studentService.getStudentDetailsByID(studentId);
+        System.out.println(student.getFirstName());
+        assertEquals(student.getFirstName(),"some good student");
+    }
+
+    private Student newStudent() {
+        Student student = new Student();
+        student.setFirstName("some good student");
+        return student;
     }
 }

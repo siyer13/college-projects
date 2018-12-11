@@ -48,6 +48,11 @@ public class StudentService implements StudentResource {
        return student;
     }
 
+    @Override
+    public Student getStudentDetailsByID(String studentID) {
+        return studentDao.findStudentByID(studentID);
+    }
+
     private String generateStudentID() {
         Random random = new Random();
         int univID = random.nextInt(90) + 10;

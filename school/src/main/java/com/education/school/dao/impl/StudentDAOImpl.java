@@ -12,4 +12,9 @@ public class StudentDAOImpl implements StudentDAO {
         // DB code goes here
         System.out.println("Student saved to DB");
     }
+
+    @Override
+    public Student findStudentByID(String studentID) {
+        return null;
+    }
 }
