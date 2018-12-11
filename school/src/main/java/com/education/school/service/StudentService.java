@@ -3,10 +3,13 @@ package com.education.school.service;
 import com.education.school.dao.StudentDAO;
 import com.education.school.entity.Student;
 import com.education.school.resource.StudentResource;
+import com.education.school.util.SchoolUtilities;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
@@ -19,6 +22,8 @@ import java.util.Random;
 @Api(value = "/student", description = "Student Service", produces = "application/json")
 @RequestMapping("/student")
 public class StudentService implements StudentResource {
+
+    private final static Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     @Autowired
     private Student student;
@@ -35,8 +40,8 @@ public class StudentService implements StudentResource {
     @Override
     @RequestMapping(method = RequestMethod.POST, value = "/registerstudent", produces = "application/json")
     @ResponseBody
-    public Student registerStudent(String firstName, String middleName, String lastName, String college,String department, String course, String courseYear, String courseSemester) {
-       student.setFirstName(firstName);
+    public Student registerStudent(String firstName, String middleName, String lastName, String college,String department, String course, String courseYear, String courseSemester) { student.setFirstName(firstName);
+       String txnID = SchoolUtilities.generateTransactionID();
        student.setMiddleName(middleName);
        student.setLastName(lastName);
        student.setCollege(college);
@@ -45,7 +50,8 @@ public class StudentService implements StudentResource {
        student.setStudentID(generateStudentID());
        student.setCourseYear(courseYear);
        student.setCourseSemester(courseSemester);
-       studentDao.persistStudent(student);
+       logger.info("Student service. " + student + " txnID: "+ txnID);
+       studentDao.persistStudent(student,txnID);
        return student;
     }
 

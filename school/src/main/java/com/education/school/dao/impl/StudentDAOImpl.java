@@ -28,7 +28,7 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public void persistStudent(Student student) {
+    public void persistStudent(Student student, String txnID) {
         Session session;
         try {
              session = this.sessionFactory.getCurrentSession();
@@ -42,7 +42,7 @@ public class StudentDAOImpl implements StudentDAO {
         }catch(Exception e) {
             logger.error(e.getMessage());
         }
-        logger.info("Student details commited to DB" + student);
+        logger.info("Student details commited to DB. " + student + " txnID: "+ txnID);
     }
 
     @Override
