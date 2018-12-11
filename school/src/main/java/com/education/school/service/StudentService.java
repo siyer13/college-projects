@@ -1,5 +1,6 @@
 package com.education.school.service;
 
+import com.education.school.dao.StudentDAO;
 import com.education.school.entity.Student;
 import com.education.school.resource.StudentResource;
 import io.swagger.annotations.Api;
@@ -21,6 +22,8 @@ public class StudentService implements StudentResource {
 
     @Autowired
     private Student student;
+    @Autowired
+    private StudentDAO studentDao;
 
     @ApiOperation(value = "register student", response = Student.class)
     @ApiResponses(value = {
@@ -32,13 +35,16 @@ public class StudentService implements StudentResource {
     @Override
     @RequestMapping(method = RequestMethod.POST, value = "/registerstudent", produces = "application/json")
     @ResponseBody
-    public Student registerStudent(String firstName, String middleName, String lastName, String college,String department, String course) {
+    public Student registerStudent(String firstName, String middleName, String lastName, String college,String department, String course, String courseYear, String courseSemester) {
        student.setFirstName(firstName);
        student.setMiddleName(middleName);
        student.setLastName(lastName);
        student.setDepartment(department);
        student.setCourse(course);
        student.setStudentID(generateStudentID());
+       student.setCourseYear(courseYear);
+       student.setCourseSemester(courseSemester);
+       studentDao.persistStudent(student);
        return student;
     }
 
