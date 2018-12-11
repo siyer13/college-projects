@@ -39,6 +39,7 @@ public class StudentService implements StudentResource {
        student.setFirstName(firstName);
        student.setMiddleName(middleName);
        student.setLastName(lastName);
+       student.setCollege(college);
        student.setDepartment(department);
        student.setCourse(course);
        student.setStudentID(generateStudentID());
@@ -49,6 +50,8 @@ public class StudentService implements StudentResource {
     }
 
     @Override
+    @RequestMapping(method = RequestMethod.GET, value = "/getStudentDetailsByID", produces = "application/json")
+    @ResponseBody
     public Student getStudentDetailsByID(String studentID) {
         return studentDao.findStudentByID(studentID);
     }
