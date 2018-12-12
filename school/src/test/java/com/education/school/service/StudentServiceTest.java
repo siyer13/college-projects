@@ -40,7 +40,7 @@ public class StudentServiceTest {
     @Test
     @Parameters({"046-26-0100"})
     public void getStudentDetailsByIDTest(String studentId) {
-        when(studentDao.findStudentByID(studentId)).thenReturn(newStudent());
+        when(studentDao.findStudentByID(studentId,null)).thenReturn(newStudent());
         student = studentService.getStudentDetailsByID(studentId);
         System.out.println(student.getFirstName());
         assertEquals(student.getFirstName(),"some good student");

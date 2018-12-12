@@ -5,5 +5,5 @@ import com.education.school.entity.Student;
 public interface StudentDAO {
 
     void persistStudent(Student student, String txnID);
-    Student findStudentByID(String studentID);
+    Student findStudentByID(String studentID, String txnID);
 }

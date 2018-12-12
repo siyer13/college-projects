@@ -59,7 +59,8 @@ public class StudentService implements StudentResource {
     @RequestMapping(method = RequestMethod.GET, value = "/getStudentDetailsByID", produces = "application/json")
     @ResponseBody
     public Student getStudentDetailsByID(String studentID) {
-        return studentDao.findStudentByID(studentID);
+        String txnID = SchoolUtilities.generateTransactionID();
+        return studentDao.findStudentByID(studentID, txnID);
     }
 
     private String generateStudentID() {
