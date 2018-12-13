@@ -30,10 +30,6 @@ public class Student {
     @NotNull
     @Column(name="course")
     private String course;
-    @Column(name="course_year")
-    private String courseYear;
-    @Column(name="course_semester")
-    private String courseSemester;
 
     public String getStudentID() {
         return studentID;
@@ -83,22 +79,6 @@ public class Student {
         this.course = course;
     }
 
-    public String getCourseYear() {
-        return courseYear;
-    }
-
-    public void setCourseYear(String courseYear) {
-        this.courseYear = courseYear;
-    }
-
-    public String getCourseSemester() {
-        return courseSemester;
-    }
-
-    public void setCourseSemester(String courseSemester) {
-        this.courseSemester = courseSemester;
-    }
-
     public String getCollege() {
         return college;
     }
@@ -117,8 +97,6 @@ public class Student {
                 ", college='" + college + '\'' +
                 ", department='" + department + '\'' +
                 ", course='" + course + '\'' +
-                ", courseYear='" + courseYear + '\'' +
-                ", courseSemester='" + courseSemester + '\'' +
                 '}';
     }
 }

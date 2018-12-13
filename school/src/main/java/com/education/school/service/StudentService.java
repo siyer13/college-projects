@@ -40,7 +40,7 @@ public class StudentService implements StudentResource {
     @Override
     @RequestMapping(method = RequestMethod.POST, value = "/registerstudent", produces = "application/json")
     @ResponseBody
-    public Student registerStudent(String firstName, String middleName, String lastName, String college,String department, String course, String courseYear, String courseSemester) { student.setFirstName(firstName);
+    public Student registerStudent(String firstName, String middleName, String lastName, String college,String department, String course) { student.setFirstName(firstName);
        String txnID = SchoolUtilities.generateTransactionID();
        student.setMiddleName(middleName);
        student.setLastName(lastName);
@@ -48,8 +48,6 @@ public class StudentService implements StudentResource {
        student.setDepartment(department);
        student.setCourse(course);
        student.setStudentID(generateStudentID());
-       student.setCourseYear(courseYear);
-       student.setCourseSemester(courseSemester);
        logger.info("Student service. " + student + " txnID: "+ txnID);
        studentDao.persistStudent(student,txnID);
        return student;
