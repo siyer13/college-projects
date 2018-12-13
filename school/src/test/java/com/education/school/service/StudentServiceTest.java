@@ -30,9 +30,9 @@ public class StudentServiceTest {
     }
 
     @Test
-    @Parameters({"Sridhar,R,Iyer,SSUD,Computers,Masters,FY,FY"})
-    public void registerStudentTest(String firstName, String middleName, String lastName, String college,String department, String course, String courseYear, String courseSemester) {
-        student = studentService.registerStudent(firstName,middleName,lastName,college,department,course,courseYear,courseSemester);
+    @Parameters({"Sridhar,R,Iyer,SSUD,Computers,Masters"})
+    public void registerStudentTest(String firstName, String middleName, String lastName, String college,String department, String course) {
+        student = studentService.registerStudent(firstName,middleName,lastName,college,department,course);
         System.out.println(student.getStudentID());
         assertThat(student.getStudentID(),containsString("-"));
     }

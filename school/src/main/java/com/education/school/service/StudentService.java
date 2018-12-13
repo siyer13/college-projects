@@ -1,6 +1,7 @@
 package com.education.school.service;
 
 import com.education.school.dao.StudentDAO;
+import com.education.school.entity.Marks;
 import com.education.school.entity.Student;
 import com.education.school.resource.StudentResource;
 import com.education.school.util.SchoolUtilities;
@@ -59,6 +60,13 @@ public class StudentService implements StudentResource {
     public Student getStudentDetailsByID(String studentID) {
         String txnID = SchoolUtilities.generateTransactionID();
         return studentDao.findStudentByID(studentID, txnID);
+    }
+
+    @Override
+    @RequestMapping(method = RequestMethod.GET, value = "/getStudentMarkDetailsByID", produces = "application/json")
+    @ResponseBody
+    public Marks getStudentMarkDetailsByID(String studentID) {
+        return null;
     }
 
     private String generateStudentID() {
