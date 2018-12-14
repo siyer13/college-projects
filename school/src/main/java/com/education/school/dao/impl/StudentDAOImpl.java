@@ -1,6 +1,7 @@
 package com.education.school.dao.impl;
 
 import com.education.school.dao.StudentDAO;
+import com.education.school.entity.Marks;
 import com.education.school.entity.Student;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
@@ -69,9 +70,14 @@ public class StudentDAOImpl implements StudentDAO {
             for(Object obj : row){
                 System.out.print(obj + "::");
             }
-            System.out.println("\n");
+            System.out.println("");
         }
 
+        return null;
+    }
+
+    @Override
+    public Marks getStudentMarkDetailsByID(String studentID, String txnID) {
         return null;
     }
 }
