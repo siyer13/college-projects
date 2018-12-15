@@ -12,6 +12,7 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
+import org.springframework.transaction.annotation.Transactional;
 
 
 import javax.persistence.TypedQuery;
@@ -36,27 +37,36 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     private Session getSession() {
-        Session session;
+        Session session = null;
         try {
-            session = this.sessionFactory.getCurrentSession();
-        }catch(HibernateException e) {
-            session = sessionFactory.openSession();
+            session = this.sessionFactory.openSession();
+            ;
+        } catch (HibernateException e) {
+            e.getStackTrace();
         }
         return session;
     }
 
 
     @Override
-    public void persistStudent(Student student, String txnID) {
-        session = getSession();
+    public void persistStudent(Student student, String txnID) throws Exception {
+        boolean commited = false;
         try {
+            session = getSession();
             session.beginTransaction();
             session.save(student);
+            session.flush();
+            session.clear();
             session.getTransaction().commit();
+            commited = true;
         }catch(Exception e) {
             logger.error(e.getMessage());
         }
-        logger.info("Student details commited to DB. " + student + " txnID: "+ txnID);
+        finally {
+            session.close();
+        }
+        if(commited)
+        logger.info("Student commited to DB. " + student + " txnID: " + txnID);
     }
 
     @Override
@@ -64,10 +74,10 @@ public class StudentDAOImpl implements StudentDAO {
         session = getSession();
         Query query = session.createSQLQuery(SQL_FIND_STUDENT);
         query.setString("stu_id", studentID);
-        List<Object[]> stu =  query.list();
+        List<Object[]> stu = query.list();
 
-        for(Object[] row : stu){
-            for(Object obj : row){
+        for (Object[] row : stu) {
+            for (Object obj : row) {
                 System.out.print(obj + "::");
             }
             System.out.println("");

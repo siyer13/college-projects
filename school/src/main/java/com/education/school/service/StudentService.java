@@ -50,7 +50,12 @@ public class StudentService implements StudentResource {
        student.setCourse(course);
        student.setStudentID(generateStudentID());
        logger.info("Student service. " + student + " txnID: "+ txnID);
-       studentDao.persistStudent(student,txnID);
+       try {
+           studentDao.persistStudent(student,txnID);
+       }catch(Exception e) {
+           e.getMessage();
+       }
+
        return student;
     }
 
