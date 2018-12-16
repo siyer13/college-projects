@@ -75,7 +75,9 @@ public class StudentDAOImpl implements StudentDAO {
         Query query = session.createSQLQuery(SQL_FIND_STUDENT);
         query.setString("stu_id", studentID);
         List<Object[]> stu = query.list();
-
+        session.flush();
+        session.clear();
+        session.close();
         for (Object[] row : stu) {
             for (Object obj : row) {
                 System.out.print(obj + "::");
