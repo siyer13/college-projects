@@ -29,6 +29,9 @@ public class StudentDAOImpl implements StudentDAO {
     private SessionFactory sessionFactory;
     private Session session;
 
+    @Autowired
+    private Student student;
+
     private final String SQL_FIND_STUDENT = "select * from student where student_id = :stu_id";
 
     @Autowired
@@ -66,7 +69,7 @@ public class StudentDAOImpl implements StudentDAO {
             session.close();
         }
         if(commited)
-        logger.info("Student commited to DB. " + student + " txnID: " + txnID);
+            logger.info("Student commited to DB. " + student + " txnID: " + txnID);
     }
 
     @Override
@@ -78,14 +81,37 @@ public class StudentDAOImpl implements StudentDAO {
         session.flush();
         session.clear();
         session.close();
+        int column = 0;
         for (Object[] row : stu) {
-            for (Object obj : row) {
-                System.out.print(obj + "::");
-            }
-            System.out.println("");
+           for(Object obj : row) {
+              switch (column) {
+                  case 0:
+                      student.setStudentID(obj.toString());
+                      break;
+                  case 1:
+                      student.setFirstName(obj.toString());
+                      break;
+                  case 2:
+                      student.setMiddleName(obj.toString());
+                      break;
+                  case 3:
+                      student.setLastName(obj.toString());
+                      break;
+                  case 4:
+                      student.setCollege(obj.toString());
+                      break;
+                  case 5:
+                      student.setDepartment(obj.toString());
+                      break;
+                  case 6:
+                      student.setCourse(obj.toString());
+                      break;
+                  default:
+              }
+              column++;
+           }
         }
-
-        return null;
+        return student;
     }
 
     @Override
