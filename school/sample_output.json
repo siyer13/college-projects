@@ -1,0 +1,28 @@
+{
+  "studentID": "11-68-4670",
+  "firstName": "Sridhar",
+  "middleName": "Ramakrishnan",
+  "lastName": "Iyer",
+  "college": "Mission",
+  "department": "Commerce",
+  "course": "Masters",
+  "first_year": [{
+    "first_semester": [{
+      "subject": "OS",
+      "type": "EXT",
+      "grade": "A"
+    },
+      {
+        "subject": "DBMS"
+      },
+      {
+        "subject": "MFC"
+      }
+    ],
+    "second_semester": [{
+      "subject": "OS",
+      "type": "EXT",
+      "grade": "A"
+    }]
+  }]
+}
