@@ -12,7 +12,7 @@ public class Student {
 
     @Id
     @Column(name="student_id")
-    private String studentID;
+    private String studentId;
     @NotNull
     @Column(name="first_name")
     private String firstName;
@@ -31,12 +31,12 @@ public class Student {
     @Column(name="course")
     private String course;
 
-    public String getStudentID() {
-        return studentID;
+    public String getStudentId() {
+        return studentId;
     }
 
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
+    public void setStudentId(String studentId) {
+        this.studentId = studentId;
     }
 
     public String getFirstName() {
@@ -90,7 +90,7 @@ public class Student {
     @Override
     public String toString() {
         return "Student{" +
-                "studentID='" + studentID + '\'' +
+                "studentId='" + studentId + '\'' +
                 ", firstName='" + firstName + '\'' +
                 ", middleName='" + middleName + '\'' +
                 ", lastName='" + lastName + '\'' +
