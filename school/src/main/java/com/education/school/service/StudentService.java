@@ -3,6 +3,7 @@ package com.education.school.service;
 import com.education.school.dao.StudentDAO;
 import com.education.school.entity.Marks;
 import com.education.school.entity.Student;
+import com.education.school.mapper.StudentMapper;
 import com.education.school.resource.StudentResource;
 import com.education.school.util.SchoolUtilities;
 import io.swagger.annotations.Api;
@@ -12,11 +13,9 @@ import io.swagger.annotations.ApiResponses;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
+import java.util.List;
 import java.util.Random;
 
 @RestController
@@ -30,6 +29,13 @@ public class StudentService implements StudentResource {
     private Student student;
     @Autowired
     private StudentDAO studentDao;
+
+    private StudentMapper studentMapper;
+
+    public StudentService(StudentMapper studentMapper) {
+        System.out.println("DOEs thsi get called");
+        this.studentMapper = studentMapper;
+    }
 
     @ApiOperation(value = "register student", response = Student.class)
     @ApiResponses(value = {
@@ -48,7 +54,7 @@ public class StudentService implements StudentResource {
        student.setCollege(college);
        student.setDepartment(department);
        student.setCourse(course);
-       student.setStudentID(generateStudentID());
+       student.setStudentId(generateStudentID());
        logger.info("Student service. " + student + " txnID: "+ txnID);
        try {
            studentDao.persistStudent(student,txnID);
@@ -71,7 +77,8 @@ public class StudentService implements StudentResource {
     @RequestMapping(method = RequestMethod.GET, value = "/getStudentMarkDetailsByID", produces = "application/json")
     @ResponseBody
     public Marks getStudentMarkDetailsByID(String studentID) {
-        return null;
+        String txnID = SchoolUtilities.generateTransactionID();
+        return studentDao.getStudentMarkDetailsByID(studentID, txnID);
     }
 
     private String generateStudentID() {
@@ -80,5 +87,11 @@ public class StudentService implements StudentResource {
         int collegeID = random.nextInt(90) + 10;
         int randomID = random.nextInt(9999) + 1000;
         return univID + "-" + collegeID + "-" + randomID;
+    }
+
+    @RequestMapping(method = RequestMethod.GET, value = "/findAllStudents", produces = "application/json")
+    @ResponseBody
+    public List<Student> findAll() {
+        return studentMapper.findAllStudents();
     }
 }
