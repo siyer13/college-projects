@@ -3,6 +3,7 @@ package com.education.school.dao.impl;
 import com.education.school.dao.StudentDAO;
 import com.education.school.entity.Marks;
 import com.education.school.entity.Student;
+import com.education.school.exception.StudentNotFoundException;
 import org.hibernate.HibernateException;
 import org.hibernate.Query;
 import org.hibernate.Session;
@@ -12,12 +13,8 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Repository;
 import org.springframework.transaction.annotation.EnableTransactionManagement;
-import org.springframework.transaction.annotation.Transactional;
 
 
-import javax.persistence.TypedQuery;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
 import java.util.List;
 
 @Repository
@@ -32,7 +29,9 @@ public class StudentDAOImpl implements StudentDAO {
     @Autowired
     private Student student;
 
-    private final String SQL_FIND_STUDENT = "select * from student where student_id = :stu_id";
+
+    private final String FIND_STUDENT_SQL = "SELECT * FROM STUDENT WHERE STUDENT_ID = :stu_id";
+    private final String GET_STUDENT_MARKS_SQL = "SELECT * FROM STUDENT JOIN MARKS WHERE ";
 
     @Autowired
     public StudentDAOImpl(SessionFactory sessionFactory) {
@@ -73,11 +72,12 @@ public class StudentDAOImpl implements StudentDAO {
     }
 
     @Override
-    public Student findStudentByID(String studentID, String txnID) {
+    public Student findStudentByID(String studentID, String txnID) throws StudentNotFoundException {
         session = getSession();
-        Query query = session.createSQLQuery(SQL_FIND_STUDENT);
+        Query query = session.createSQLQuery(FIND_STUDENT_SQL);
         query.setString("stu_id", studentID);
         List<Object[]> stu = query.list();
+        if(stu.size() == 0) throw new StudentNotFoundException("Student not found");
         session.flush();
         session.clear();
         session.close();
@@ -86,7 +86,7 @@ public class StudentDAOImpl implements StudentDAO {
            for(Object obj : row) {
               switch (column) {
                   case 0:
-                      student.setStudentID(obj.toString());
+                      student.setStudentId(obj.toString());
                       break;
                   case 1:
                       student.setFirstName(obj.toString());
@@ -119,3 +119,5 @@ public class StudentDAOImpl implements StudentDAO {
         return null;
     }
 }
+
+
