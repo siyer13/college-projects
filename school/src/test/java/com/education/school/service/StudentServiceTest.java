@@ -2,9 +2,11 @@ package com.education.school.service;
 
 import com.education.school.dao.StudentDAO;
 import com.education.school.entity.Student;
+import com.education.school.exception.StudentNotFoundException;
 import junitparams.JUnitParamsRunner;
 import junitparams.Parameters;
 import org.junit.Before;
+import org.junit.Ignore;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 import org.mockito.*;
@@ -33,13 +35,15 @@ public class StudentServiceTest {
     @Parameters({"Sridhar,R,Iyer,SSUD,Computers,Masters"})
     public void registerStudentTest(String firstName, String middleName, String lastName, String college,String department, String course) {
         student = studentService.registerStudent(firstName,middleName,lastName,college,department,course);
-        System.out.println(student.getStudentID());
-        assertThat(student.getStudentID(),containsString("-"));
+        System.out.println(student.getStudentId());
+        assertThat(student.getStudentId(),containsString("-"));
     }
 
+
     @Test
-    @Parameters({"046-26-0100"})
-    public void getStudentDetailsByIDTest(String studentId) {
+    @Parameters({"046-26-0100"}
+    )
+    public void getStudentDetailsByIDTest(String studentId) throws StudentNotFoundException {
         when(studentDao.findStudentByID(studentId,null)).thenReturn(newStudent());
         student = studentService.getStudentDetailsByID(studentId);
         System.out.println(student.getFirstName());
