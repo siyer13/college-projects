@@ -3,6 +3,7 @@ package com.education.school.service;
 import com.education.school.dao.StudentDAO;
 import com.education.school.entity.Marks;
 import com.education.school.entity.Student;
+import com.education.school.exception.StudentNotFoundException;
 import com.education.school.mapper.StudentMapper;
 import com.education.school.resource.StudentResource;
 import com.education.school.util.SchoolUtilities;
@@ -70,7 +71,13 @@ public class StudentService implements StudentResource {
     @ResponseBody
     public Student getStudentDetailsByID(String studentID) {
         String txnID = SchoolUtilities.generateTransactionID();
-        return studentDao.findStudentByID(studentID, txnID);
+        Student student = new Student();
+        try {
+            student = studentDao.findStudentByID(studentID, txnID);
+        }catch(StudentNotFoundException e) {
+            logger.error(e.getMessage());
+        }
+        return student;
     }
 
     @Override
