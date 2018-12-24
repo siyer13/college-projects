@@ -9,12 +9,12 @@ import javax.persistence.Table;
 
 @Component
 @Entity
-@Table(name="marks")
+@Table(name="mark")
 public class Marks {
 
     @Id
     @Column(name="student_id")
-    private String studentID;
+    private String student_id;
     @Column(name="subject")
     private String subject;
     @Column(name="type")
@@ -32,14 +32,6 @@ public class Marks {
     @Column(name="pass_year")
     private String passYear;
 
-
-    public String getStudentID() {
-        return studentID;
-    }
-
-    public void setStudentID(String studentID) {
-        this.studentID = studentID;
-    }
 
     public String getSubject() {
         return subject;
@@ -105,10 +97,18 @@ public class Marks {
         this.passYear = passYear;
     }
 
+    public String getStudent_id() {
+        return student_id;
+    }
+
+    public void setStudent_id(String student_id) {
+        this.student_id = student_id;
+    }
+
     @Override
     public String toString() {
         return "Marks{" +
-                "studentID='" + studentID + '\'' +
+                "student_id='" + student_id + '\'' +
                 ", subject='" + subject + '\'' +
                 ", type='" + type + '\'' +
                 ", marks=" + marks +
