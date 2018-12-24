@@ -4,6 +4,7 @@ import org.springframework.stereotype.Component;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotNull;
+import java.util.Objects;
 
 @Component
 @Entity
@@ -98,5 +99,24 @@ public class Student {
                 ", department='" + department + '\'' +
                 ", course='" + course + '\'' +
                 '}';
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (!(o instanceof Student)) return false;
+        Student student = (Student) o;
+        return Objects.equals(getStudentId(), student.getStudentId()) &&
+                Objects.equals(getFirstName(), student.getFirstName()) &&
+                Objects.equals(getMiddleName(), student.getMiddleName()) &&
+                Objects.equals(getLastName(), student.getLastName()) &&
+                Objects.equals(getCollege(), student.getCollege()) &&
+                Objects.equals(getDepartment(), student.getDepartment()) &&
+                Objects.equals(getCourse(), student.getCourse());
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(getStudentId());
     }
 }
