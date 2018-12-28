@@ -73,7 +73,9 @@ public class StudentService implements StudentResource {
         String txnID = SchoolUtilities.generateTransactionID();
         Student student = new Student();
         try {
-            student = studentDao.findStudentByID(studentID, txnID);
+            //student = studentDao.findStudentByID(studentID, txnID);
+            student = studentMapper.findStudentById(studentID);
+            if ()
         }catch(StudentNotFoundException e) {
             logger.error(e.getMessage());
         }
