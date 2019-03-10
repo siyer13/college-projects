@@ -49,6 +49,14 @@ public class StudentServiceTest {
         System.out.println(student.getFirstName());
         assertEquals(student.getFirstName(),"some good student");
     }
+    
+    @Test(expected = Exception.class)
+    @Parameters({"046-26-0100"}
+    )
+    public void dbServiceNotAvailableTest(String studentId) throws StudentNotFoundException {
+        when(studentDao.findStudentByID(studentId, null)).thenThrow(new Exception());
+        student = studentService.getStudentDetailsByID(studentId);
+    }
 
     private Student newStudent() {
         Student student = new Student();
